@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebApplication1.Domain.Persistence.Contexts;
+using WebApplication1.Domain.Persistence.Repositories;
+using WebApplication1.Domain.Repositories;
+using WebApplication1.Domain.Services;
+using WebApplication1.Services;
 
 namespace WebApplication1
 {
@@ -26,6 +32,12 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("supermarket-api-in-memory");
+            });
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

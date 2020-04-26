@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Domain.Models;
+using WebApplication1.Domain.Repositories;
 using WebApplication1.Domain.Services;
 
 namespace WebApplication1.Services
 {
     public class CategoryServices : ICategoryService
     {
-        public CategoryServices()
-        {
+        private readonly ICategoryRepository _categoryRepository;
 
-        }
-        public Task<IEnumerable<Category>> ListAsync()
+        public CategoryServices(ICategoryRepository categoryRepository)
         {
-            throw new NotImplementedException();
+            _categoryRepository = categoryRepository;
+        }
+
+        public async Task<IEnumerable<Category>> ListAsync()
+        {
+            return await _categoryRepository.ListAsync();
         }
     }
 }
